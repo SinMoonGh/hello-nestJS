@@ -3,7 +3,7 @@ import {Movie} from './entities/Movie.entity';
 import { CreateMovieDto } from './dto/create-moive.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 
-@Injectable()
+@Injectable() 
 export class MoviesService {
     private movies:Movie[] = [];
 
@@ -12,7 +12,7 @@ export class MoviesService {
     }
 
     getOne(id:number):Movie{
-        const movie = this.movies.find(movie => movie.id === +id);
+        const movie = this.movies.find(movie => movie.id === id);
         if(!movie){
             throw new NotFoundException(`Movie ID 존재하지 않음 : ${id}`);
         }
@@ -21,7 +21,7 @@ export class MoviesService {
 
     deleteOne(id:number):boolean{
         this.getOne(id);
-        this.movies.filter(movie => movie.id ! == +id);
+        this.movies.filter(movie => movie.id ! == id);
         return true;
     }
 
@@ -35,9 +35,8 @@ export class MoviesService {
 
     update(id:number, movieData:UpdateMovieDto):boolean{
         const movie = this.getOne(id)
-        movie.title = movieData.title
-        movie.year = movieData.year
-        movie.genres = movieData.genres
+        this.deleteOne(id);
+        this.movies.push({...movie, ...this.update});
         return true
     }
 }
