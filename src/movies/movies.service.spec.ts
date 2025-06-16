@@ -90,4 +90,33 @@ describe('MoviesService', () => {
       expect(movie.genres).toEqual(['test']);
     })
   })
+
+  describe('update', () => {
+    it('movie 멤버가 update 됐는 지 확인', () => {
+      service.create({
+        title: 'Test Movie',
+        year: 2000,
+        genres: ['test'],
+      })
+
+      const updateData = {
+        title: 'update Movie',
+        year: 1000,
+      }
+
+      service.update(1, updateData);
+      const upDateMovie = service.getOne(1);
+      
+      expect(upDateMovie.title).toEqual('update Movie');
+      expect(upDateMovie.year).toEqual(1000);
+    })
+
+    it('404를 뱉는 지 확인합니다.', () => {
+      try{
+        service.update(999, {});
+      }catch(e){
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    })
+  })
 });

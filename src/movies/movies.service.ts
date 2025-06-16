@@ -34,9 +34,9 @@ export class MoviesService {
     }
 
     update(id:number, movieData:UpdateMovieDto):boolean{
-        const movie = this.getOne(id)
+        const movie = this.getOne(id);
         this.deleteOne(id);
-        this.movies.push({...movie, ...this.update});
+        this.movies.push({...movie, ...movieData});
         return true
     }
 }
